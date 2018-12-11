@@ -1,0 +1,9 @@
+*.o
+*.d
+*.so
+*.a
+*.bin
+lm.config
+lm.files
+lm.includes
+lm.creator
