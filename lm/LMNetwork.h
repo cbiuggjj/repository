@@ -15,7 +15,7 @@ public:
     static void* thread_func(void* ptr);
     void* _thread_func(void* ptr);
     //send all
-    void send(string msg,string ip="255.255.255.255");
+    void send(string msg,uint32_t ip=0xffffffff);
 private:
     LMNetwork();
 };

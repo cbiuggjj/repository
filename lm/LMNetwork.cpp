@@ -42,7 +42,7 @@ void *LMNetwork::_thread_func(void *ptr)
             resp.add(LM_ONLINE,LM_ONLINEACK);
             resp.add(LM_NAME,LMCore::instance()->_name);
             printf("%s(ox%x) is online now \n",name.c_str(),addr.sin_addr.s_addr);
-            //send(resp.print(),addr.sin_addr.s_addr);
+            send(resp.print(),addr.sin_addr.s_addr);
         }
         else if(cmd == LM_ONLINEACK)
         {
@@ -53,12 +53,12 @@ void *LMNetwork::_thread_func(void *ptr)
     }
 }
 
-void LMNetwork::send(string msg,string ip)
+void LMNetwork::send(string msg,uint32_t ip)
 {
     struct sockaddr_in addr;
     addr.sin_family = AF_INET;
     addr.sin_port = htons(LM_PORT_UDP);
-    addr.sin_addr.s_addr = inet_addr(ip.c_str());
+    addr.sin_addr.s_addr = ip;
 
     sendto(this->_udpfd,msg.c_str(),strlen(msg.c_str()),0,(struct sockaddr*)&addr,sizeof(addr));
 }
