@@ -36,10 +36,9 @@ void *LMNetwork::_thread_func(void *ptr)
         if(cmd == LM_ONLINE)
         {
             string name = json.get(LM_NAME);
-            {
-                LMLock lock;
-                LMCore::instance()->add_user(addr.sin_addr.s_addr,name);
-            }
+            
+            LMCore::instance()->add_user(addr.sin_addr.s_addr,name);
+            
             //LMCore::instance()->_others.insert();
             LMJson resp;
             resp.add(LM_ONLINE,LM_ONLINEACK);
