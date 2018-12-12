@@ -14,7 +14,7 @@ int main(int argc,char* argv[])
     network->send(json.print());
     while(1)
     {
-        input.get();
+        input.loop();
     }
 
     return 0;

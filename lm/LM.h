@@ -20,3 +20,4 @@
 #define LM_ONLINE "online"
 #define LM_NAME "name"
 #define LM_ONLINEACK "onlineack"
+#define LM_LIST "list"

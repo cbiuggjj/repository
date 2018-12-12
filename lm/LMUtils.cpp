@@ -32,3 +32,11 @@ list<uint32_t> LMUtils::getLocalIpAddr()
     return ret;
 }
 
+string LMUtils::ipaddr(uint32_t ip)
+{
+    uint8_t* p = (uint8_t*)&ip;
+    char buf[128];
+    sprintf(buf,"%d,%d,%d,%d",p[3],p[2],p[1],p[0]);
+    return string(buf);
+}
+

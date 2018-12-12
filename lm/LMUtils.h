@@ -10,6 +10,7 @@ public:
     static char* getHostName();
 
     static list<uint32_t> getLocalIpAddr();
+    static string ipaddr(uint32_t ip);
 };
 
 #endif // LMUTILS_H
