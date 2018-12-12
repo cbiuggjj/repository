@@ -1,5 +1,7 @@
 #include "LMUserInput.h"
 #include "LMUtils.h"
+#include "LMNetwork.h"
+#include "LMJson.h"
 
 LMUserInput::LMUserInput()
 {
@@ -11,7 +13,27 @@ LMUserInput::LMUserInput()
 void LMUserInput::loop()
 {
     getcmd();
+    splitCmd();
     handlecmd();
+}
+
+void LMUserInput::splitCmd()
+{
+    _args.clear();
+    char* saveptr = NULL;
+    char* first = strtok_r(this->_buf," \t",&saveptr);
+    _args.push_back(first);
+    char* second = strtok_r(NULL," \t",&saveptr);
+    if(second)
+    {
+        _args.push_back(second);
+    }
+    else
+        return;
+    char* third = strtok_r(NULL," \0",&saveptr);
+    if(third)
+        _args.push_back(third);
+    return;
 }
 
 void LMUserInput::getcmd()
@@ -27,14 +49,19 @@ void LMUserInput::getcmd()
 
 void LMUserInput::handlecmd()
 {
-    if(string(_buf) == LM_LIST)
+#define BRANCH(cmd,func) if(_args[0]==cmd) func()
+    BRANCH(LM_LIST,handleList);
+    BRANCH(LM_SEND,handleSend);
+#if 0
+    if(_args[0] == LM_LIST)
     {
         handleList();
     }
-    else //if(string(_buf) == )
+    else if(_args[1] == LM_SEND)
     {
-
+        handleSend();
     }
+#endif
 }
 
 void LMUserInput::handleList()
@@ -47,5 +74,20 @@ void LMUserInput::handleList()
         printf("%s(%s) \n",other->_name.c_str(),LMUtils::ipaddr(other->_ip).c_str());
     }
 
+}
+
+void LMUserInput::handleSend()
+{
+    if(_args.size()<3)
+        return;
+    string& ip = _args[1];
+    string& content = _args[2];
+
+    LMJson json;
+    json.add(LM_CMD,LM_SEND);
+    json.add(LM_NAME,LMCore::instance()->_name);
+    json.add(LM_CONTENT,content);
+
+    LMNetwork::instance()->send(json.print(),inet_addr(ip.c_str()));
 }
 

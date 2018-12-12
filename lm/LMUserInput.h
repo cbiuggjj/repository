@@ -7,11 +7,16 @@ class LMUserInput
 public:
     LMUserInput();
     char _buf[4096];
-    void loop();
+    vector<string> _args;
 
+
+    void loop();
+    void splitCmd();
     void getcmd();
     void handlecmd();
     void handleList();
+    void handleSend();
+
 
 };
 

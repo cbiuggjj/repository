@@ -14,6 +14,7 @@
 #include <errno.h>
 #include <stdlib.h>
 #include <algorithm>
+#include <vector>
 
 #define LM_PORT_UDP 9999
 #define LM_CMD "cmd"
@@ -21,3 +22,5 @@
 #define LM_NAME "name"
 #define LM_ONLINEACK "onlineack"
 #define LM_LIST "list"
+#define LM_SEND "send"
+#define LM_CONTENT "content"

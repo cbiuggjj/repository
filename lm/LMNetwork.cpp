@@ -35,23 +35,15 @@ void *LMNetwork::_thread_func(void *ptr)
         string cmd = json.get(LM_CMD);
         if(cmd == LM_ONLINE)
         {
-            string name = json.get(LM_NAME);
-            {
-                LMLock lock;
-                LMCore::instance()->add_user(addr.sin_addr.s_addr,name);
-            }
-            //LMCore::instance()->_others.insert();
-            LMJson resp;
-            resp.add(LM_ONLINE,LM_ONLINEACK);
-            resp.add(LM_NAME,LMCore::instance()->_name);
-            printf("%s(ox%x) is online now \n",name.c_str(),addr.sin_addr.s_addr);
-            send(resp.print(),addr.sin_addr.s_addr);
+            handle_online(json,addr.sin_addr.s_addr);
         }
         else if(cmd == LM_ONLINEACK)
         {
-            string name = json.get(LM_NAME);
-            LMCore::instance()->add_user(addr.sin_addr.s_addr,name);
-             printf("%s(ox%x) is online now \n",name.c_str(),addr.sin_addr.s_addr);
+            handle_online_ack(json,addr.sin_addr.s_addr);
+        }
+        else if(cmd == LM_SEND)
+        {
+            handle_send_msg(json);
         }
     }
 }
@@ -83,4 +75,32 @@ LMNetwork::LMNetwork()
     setsockopt(_udpfd,SOL_SOCKET,SO_BROADCAST,&opt,sizeof(opt));
 
     pthread_create(&_tid,NULL,thread_func,NULL);
+}
+
+void LMNetwork::handle_online(LMJson &json,uint32_t peerip)
+{
+    string name = json.get(LM_NAME);
+
+    LMCore::instance()->add_user(peerip,name);
+
+    //LMCore::instance()->_others.insert();
+    LMJson resp;
+    resp.add(LM_ONLINE,LM_ONLINEACK);
+    resp.add(LM_NAME,LMCore::instance()->_name);
+    printf("%s(ox%x) is online now \n",name.c_str(),peerip);
+    send(resp.print(),peerip);
+}
+
+void LMNetwork::handle_online_ack(LMJson &json,uint32_t peerip)
+{
+    string name = json.get(LM_NAME);
+    LMCore::instance()->add_user(peerip,name);
+     printf("%s(ox%x) is online now \n",name.c_str(),peerip);
+}
+
+void LMNetwork::handle_send_msg(LMJson &json)
+{
+    string name = json.get(LM_NAME);
+    string msg = json.get(LM_CONTENT);
+    printf("%s say: %s\n",name.c_str(),msg.c_str());
 }
