@@ -12,6 +12,19 @@ LMCore::LMCore()
 void LMCore::add_user(uint32_t ip, string name)
 {
     LMLock lock;
+    auto it = _others.find(ip);
+    if(it==_others.end())
+    {
+        LMOther* other = new LMOther;
+        other->_ip=ip;
+        other->_name=name;
+        _others[ip] = other;
+    }
+    else
+    {
+        _others[ip]->_name = name;
+    }
+#if 0
     LMOther* other = this->_others[ip];
     if(other)
     {
@@ -24,7 +37,9 @@ void LMCore::add_user(uint32_t ip, string name)
         other->_name = name;
         this->_others.insert(std::pair<uint32_t,LMOther*>(ip,other));
     }
+#endif
 }
+
 
 
 LMLock::LMLock()

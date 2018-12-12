@@ -1,6 +1,6 @@
 CC := g++
 LIBS += -lpthread
-CPPFLAGS += -std=c++11
+CPPFLAGS += -std=c++11 -g
 cppsrc := $(shell find -name "*.cpp")
 csrc += $(shell find -name "*.c")
 

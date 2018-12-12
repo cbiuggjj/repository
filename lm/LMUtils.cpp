@@ -36,7 +36,7 @@ string LMUtils::ipaddr(uint32_t ip)
 {
     uint8_t* p = (uint8_t*)&ip;
     char buf[128];
-    sprintf(buf,"%d,%d,%d,%d",p[3],p[2],p[1],p[0]);
+    sprintf(buf,"%d,%d,%d,%d",p[0],p[1],p[2],p[3]);
     return string(buf);
 }
 
