@@ -40,3 +40,14 @@ string LMUtils::ipaddr(uint32_t ip)
     return string(buf);
 }
 
+bool LMUtils::isBroadcast(string ip)
+{
+    const char* p = ip.c_str();
+    const char* pos = rindex(p,'.');
+    pos++;
+    if(strcmp(pos,"255")==0)
+        return true;
+    else
+        return false;
+}
+

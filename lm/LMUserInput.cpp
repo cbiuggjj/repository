@@ -52,7 +52,7 @@ void LMUserInput::handlecmd()
 #define BRANCH(cmd,func) if(_args[0]==cmd) func()
     BRANCH(LM_LIST,handleList);
     BRANCH(LM_SEND,handleSend);
-    BRANCH(LM_SENDA,handleAll);
+    //BRANCH(LM_SENDA,handleAll);
 #if 0
     if(_args[0] == LM_LIST)
     {
@@ -87,13 +87,12 @@ void LMUserInput::handleSend()
     LMJson json;
     json.add(LM_CMD,LM_SEND);
     json.add(LM_NAME,LMCore::instance()->_name);
-    json.add(LM_CONTENT,content);
+    if(LMUtils::isBroadcast(ip))
+        json.add(LM_CONTENT,content+"[broadcast]");
+    else
+        json.add(LM_CONTENT,content);
 
     LMNetwork::instance()->send(json.print(),inet_addr(ip.c_str()));
 }
 
-void LMUserInput::handleAll()
-{
-
-}
 

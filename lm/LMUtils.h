@@ -11,6 +11,7 @@ public:
 
     static list<uint32_t> getLocalIpAddr();
     static string ipaddr(uint32_t ip);
+    static bool isBroadcast(string ip);
 };
 
 #endif // LMUTILS_H
