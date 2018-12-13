@@ -24,3 +24,4 @@
 #define LM_LIST "list"
 #define LM_SEND "send"
 #define LM_CONTENT "content"
+#define LM_SENDA "senda"
