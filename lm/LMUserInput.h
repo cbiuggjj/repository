@@ -16,6 +16,7 @@ public:
     void handlecmd();
     void handleList();
     void handleSend();
+    void handleSendf();
     //void handleAll();
 
 };

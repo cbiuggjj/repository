@@ -52,6 +52,7 @@ void LMUserInput::handlecmd()
 #define BRANCH(cmd,func) if(_args[0]==cmd) func()
     BRANCH(LM_LIST,handleList);
     BRANCH(LM_SEND,handleSend);
+    BRANCH(LM_SENDF,handleSendf);
     //BRANCH(LM_SENDA,handleAll);
 #if 0
     if(_args[0] == LM_LIST)
@@ -93,6 +94,22 @@ void LMUserInput::handleSend()
         json.add(LM_CONTENT,content);
 
     LMNetwork::instance()->send(json.print(),inet_addr(ip.c_str()));
+}
+
+void LMUserInput::handleSendf()
+{
+    if(_args.size()<3)
+    {
+        printf("args errer\n");
+        return;
+    }
+    string& ip = _args[1];
+    string& path = _args[2];
+
+    LMJson json;
+    json.add(LM_CMD,LM_SENDF);
+    json.add(LM_NAME,LMCore::instance()->_name);
+    json.add(LM_PATH,path);
 }
 
 

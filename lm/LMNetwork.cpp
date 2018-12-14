@@ -1,6 +1,6 @@
 #include "LMNetwork.h"
 #include "LMJson.h"
-
+#include "LMFileRecv.h"
 LMNetwork *LMNetwork::instance()
 {
     static LMNetwork* theOne = NULL;
@@ -44,6 +44,10 @@ void *LMNetwork::_thread_func(void *ptr)
         else if(cmd == LM_SEND)
         {
             handle_send_msg(json);
+        }
+        else if(cmd == LM_SENDF)
+        {
+            hadnle_send_file(json,addr.sin_addr.s_addr);
         }
     }
 }
@@ -103,4 +107,11 @@ void LMNetwork::handle_send_msg(LMJson &json)
     string name = json.get(LM_NAME);
     string msg = json.get(LM_CONTENT);
     printf("%s say: %s\n",name.c_str(),msg.c_str());
+}
+
+void LMNetwork::hadnle_send_file(LMJson &json, uint32_t peerip)
+{
+    string name = json.get(LM_NAME);
+    string path = json.get(LM_PATH);
+    new LMFileRecv(name,path,peerip);
 }

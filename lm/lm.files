@@ -12,3 +12,9 @@ LMUtils.cpp
 cJSON.c
 cJSON.h
 LM.h
+LMFileService.h
+LMFileService.cpp
+LMFileRecv.h
+LMFileRecv.cpp
+LMFileSend.h
+LMFileSend.cpp

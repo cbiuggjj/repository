@@ -2,9 +2,10 @@
 #include "LMNetwork.h"
 #include "LMJson.h"
 #include "LMUtils.h"
-
+#include "LMFileService.h"
 int main(int argc,char* argv[])
 {
+    LMFileService::instance()->start();
     LMUserInput input;
     LMNetwork* network = LMNetwork::instance();
 
